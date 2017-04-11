@@ -16,14 +16,34 @@ console.log("content script of neobux autoclick plugin is loaded");
 //    </span>
 //</div>
 
+
+var daa = [];
+
 $("div[id*='da']").each(function () {
   ida = $(this).attr('id');
   if (ida.charAt(ida.length - 1) == 'a') {
     dab = $(this).next();
     idb = dab.attr('id');
     if (idb && idb.charAt(idb.length - 1) == 'b') {
-      $(this).trigger("click");
+      var ab = {};
+      ab.a = $(this);
+      ab.b = dab;
+      daa.push(ab);
     }
   }
 });
+
+function autoclickad() {
+  ab = daa.pop();
+  if (ab) {
+    ab.a.trigger("click");
+    ab.b.find("a")[0].click();
+    setTimeout(autoclickad, 3000);
+  } else {
+    // TODO...
+    // close all opened ads
+  }
+}
+
+autoclickad();
 
