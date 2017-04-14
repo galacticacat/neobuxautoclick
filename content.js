@@ -22,28 +22,58 @@ var daa = [];
 $("div[id*='da']").each(function () {
   ida = $(this).attr('id');
   if (ida.charAt(ida.length - 1) == 'a') {
-    dab = $(this).next();
-    idb = dab.attr('id');
-    if (idb && idb.charAt(idb.length - 1) == 'b') {
-      var ab = {};
-      ab.a = $(this);
-      ab.b = dab;
-      daa.push(ab);
+    if ($(this).children(".ad0").length == 0) {
+      dab = $(this).next();
+      idb = dab.attr('id');
+      if (idb && idb.charAt(idb.length - 1) == 'b') {
+        var ab = {};
+        ab.a = $(this);
+        ab.b = dab;
+        daa.push(ab);
+      }
     }
   }
 });
+
+function adpriceclick() {
+    var ap = $("a#ap_h");
+    if (ap.length > 0) {
+      ap[0].click();
+      setTimeout(adpriceclick, 20000);     
+    }
+}
 
 function autoclickad() {
   ab = daa.pop();
   if (ab) {
     ab.a.trigger("click");
-    ab.b.find("a")[0].click();
-    setTimeout(autoclickad, 3000);
+    ab.b.find("img").click();
+    setTimeout(autoclickad, 30000);
   } else {
-    // TODO...
-    // close all opened ads
+    console.log("all ad clicked well");
+    adpriceclick();
   }
 }
 
-autoclickad();
+if (daa.length > 0) {
+  console.log("let's auto click " + daa.length + " ads ");
+  setTimeout(autoclickad, 10000);
+} else {
+  console.log("no click ads available now");
+  adpriceclick();
+}
 
+function closead() {
+  var ad = $("td.f_b:contains('Advertisement validated')");
+  if (ad.length > 0) { 
+    var display = ad.parent().parent().parent().parent().parent().parent().parent()[0].style.display;
+    if (display == "none") {
+      setTimeout(closead, 1000);
+    } else {
+      window.opener='x';
+      window.close();
+    }
+  }
+}
+
+closead();
